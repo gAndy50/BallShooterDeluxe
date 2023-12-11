@@ -289,6 +289,8 @@ void Update()
 			{
 				Red_Ball.Vel.x = 0;
 				Red_Ball.Vel.y = 0;
+				Red_Ball.X_Pos = 0;
+				Red_Ball.Y_Pos = 0;
 				Red_Ball.Timer_Countdown--;
 
 				if (Red_Ball.Timer_Countdown == 0)
@@ -296,6 +298,8 @@ void Update()
 					Red_Ball.Popped = false;
 					Red_Ball.Vel.x += 10.0f;
 					Red_Ball.Vel.y += 10.0f;
+					Red_Ball.Pos.x = (float)GetRandomValue(1, MAX_WIDTH);
+					Red_Ball.Pos.y = (float)GetRandomValue(1, MAX_HEIGHT);
 					Red_Ball.Timer_Countdown = 200;
 				}
 			}
@@ -312,6 +316,8 @@ void Update()
 			{
 				Green_Ball.Vel.x = 0;
 				Green_Ball.Vel.y = 0;
+				Green_Ball.X_Pos = 0;
+				Green_Ball.Y_Pos = 0;
 				Green_Ball.Timer_Countdown--;
 
 				if (Green_Ball.Timer_Countdown == 0)
@@ -319,6 +325,8 @@ void Update()
 					Green_Ball.Popped = false;
 					Green_Ball.Vel.x += 8.0f;
 					Green_Ball.Vel.y += 8.0f;
+					Green_Ball.Pos.x = (float)GetRandomValue(1, MAX_WIDTH);
+					Green_Ball.Pos.y = (float)GetRandomValue(1, MAX_HEIGHT);
 					Green_Ball.Timer_Countdown = 200;
 				}
 			}
@@ -335,6 +343,8 @@ void Update()
 			{
 				Blue_Ball.Vel.x = 0;
 				Blue_Ball.Vel.y = 0;
+				Blue_Ball.X_Pos = 0;
+				Blue_Ball.Y_Pos = 0;
 				Blue_Ball.Timer_Countdown--;
 
 				if (Blue_Ball.Timer_Countdown == 0)
@@ -342,6 +352,8 @@ void Update()
 					Blue_Ball.Popped = false;
 					Blue_Ball.Vel.x += 6.0f;
 					Blue_Ball.Vel.y += 6.0f;
+					Blue_Ball.Pos.x = (float)GetRandomValue(1, MAX_WIDTH);
+					Blue_Ball.Pos.y = (float)GetRandomValue(1, MAX_HEIGHT);
 					Blue_Ball.Timer_Countdown = 200;
 				}
 			}
@@ -350,15 +362,17 @@ void Update()
 			{
 				Yellow_Ball.Vel.x = 0;
 				Yellow_Ball.Vel.y = 0;
+				Yellow_Ball.X_Pos = 0;
+				Yellow_Ball.Y_Pos = 0;
 				Yellow_Ball.Timer_Countdown--;
 
 				if (Yellow_Ball.Timer_Countdown == 0)
 				{
-					//Yellow_Ball.Pos.x = (float)GetRandomValue(1, MAX_WIDTH);
-					//Yellow_Ball.Pos.y = (float)GetRandomValue(1, MAX_HEIGHT);
 					Yellow_Ball.Popped = false;
 					Yellow_Ball.Vel.x += 4.0f;
 					Yellow_Ball.Vel.y += 4.0f;
+					Yellow_Ball.Pos.x = (float)GetRandomValue(1, MAX_WIDTH);
+					Yellow_Ball.Pos.y = (float)GetRandomValue(1, MAX_HEIGHT);
 					Yellow_Ball.Timer_Countdown = 200;
 				}
 			}
