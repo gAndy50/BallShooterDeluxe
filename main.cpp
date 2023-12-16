@@ -414,7 +414,7 @@ void Draw()
 		DrawText(TextFormat("POPPED: %i", Player.Balls_Popped), 1, 20, 20, YELLOW);
 
 		//For debugging purposes
-		//rawText(TextFormat("MX: %i", mx), 1,40,20,YELLOW);
+		//DrawText(TextFormat("MX: %i", mx), 1,40,20,YELLOW);
 		//DrawText(TextFormat("MY: %i", my), 1, 60, 20, YELLOW);
 
 		if (Red_Ball.Popped == false)
