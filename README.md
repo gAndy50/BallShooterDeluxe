@@ -1,7 +1,7 @@
 # BallShooterDeluxe
 Simple Ball popping game
 
-Written in C++ and Raylib. 
+Written in C++ and Raylib. Ball Shooter Deluxe was compiled using Visual Studio's C++ compiler (Visual Studio 2022), however it is written in a C-style coding convention. The game uses Raylib to handle, graphics, sound and game logic. 
 
 # LICENSE
     Software is used on 'as-is' basis. Icy Viking Games are not liable for any damages arising from its use.
