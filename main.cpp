@@ -4,6 +4,7 @@ Icy Viking Games
 Copyright (c) 2023-2024*/
 
 #include <iostream>
+#include <vector>
 
 #include "raylib.h"
 
@@ -42,12 +43,19 @@ struct BALL
 	Rectangle Rect;
 };
 
-const int MAX_PARTICLES = 30;
+const int MAX_PARTICLES = 10;
+
+const float RED_BALL_VEL = 10.0f;
+const float GREEN_BALL_VEL = 8.0f;
+const float BLUE_BALL_VEL = 6.0f;
+const float YELLOW_BALL_VEL = 4.0f;
 
 struct PARTICLE
 {
 	Vector2 Position;
 	Color col;
+	float X, Y;
+	float X_Vel, Y_Vel;
 	float alpha;
 	float size;
 	float rotation;
@@ -71,8 +79,9 @@ BALL Red_Ball, Green_Ball, Blue_Ball, Yellow_Ball;
 GAME_SCREEN GameScreen = LOGO;
 
 PARTICLE Particle;
+std::vector <PARTICLE> Particles;
 
-Texture2D LogoTex, TitleTex;
+Texture2D LogoTex, TitleTex,Backdrop;
 
 int mx = 0;
 int my = 0;
@@ -96,6 +105,7 @@ void Init()
 
 	LogoTex = LoadTexture("Images/Logo.png");
 	TitleTex = LoadTexture("Images/BallTitle.png");
+	Backdrop = LoadTexture("Images/Backdrop.png");
 
 	Player.Balls_Popped = 0;
 	Player.Blue_Balls_Popped = 0;
@@ -105,12 +115,22 @@ void Init()
 	Player.Games_Played = 0;
 	Player.Score = 0;
 
+	Particle.Active = false;
+	Particle.alpha = 0;
+	Particle.col = BLANK;
+	Particle.Position.x = 0;
+	Particle.Position.y = 0;
+	Particle.rotation = 0;
+	Particle.size = 0;
+	Particle.X_Vel = 0;
+	Particle.Y_Vel = 0;
+
 	SetRandomSeed(25);
 
 	Red_Ball.X_Pos = (float)GetRandomValue(1, MAX_WIDTH);
 	Red_Ball.Y_Pos = (float)GetRandomValue(1,MAX_HEIGHT);
-	Red_Ball.X_Vel = 10.0f;
-	Red_Ball.Y_Vel = 10.0f;
+	Red_Ball.X_Vel = RED_BALL_VEL;
+	Red_Ball.Y_Vel = RED_BALL_VEL;
 	Red_Ball.Pos.x = Red_Ball.X_Pos;
 	Red_Ball.Pos.y = Red_Ball.Y_Pos;
 	Red_Ball.Vel.x = Red_Ball.X_Vel;
@@ -123,8 +143,8 @@ void Init()
 
 	Green_Ball.X_Pos = (float)GetRandomValue(1, MAX_WIDTH);
 	Green_Ball.Y_Pos = (float)GetRandomValue(1, MAX_HEIGHT);
-	Green_Ball.X_Vel = 8.0f;
-	Green_Ball.Y_Vel = 8.0f;
+	Green_Ball.X_Vel = GREEN_BALL_VEL;
+	Green_Ball.Y_Vel = GREEN_BALL_VEL;
 	Green_Ball.Pos.x = Green_Ball.X_Pos;
 	Green_Ball.Pos.y = Green_Ball.Y_Pos;
 	Green_Ball.Vel.x = Green_Ball.X_Vel;
@@ -137,8 +157,8 @@ void Init()
 
 	Blue_Ball.X_Pos = (float)GetRandomValue(1, MAX_WIDTH);
 	Blue_Ball.Y_Pos = (float)GetRandomValue(1, MAX_HEIGHT);
-	Blue_Ball.X_Vel = 6.0f;
-	Blue_Ball.Y_Vel = 6.0f;
+	Blue_Ball.X_Vel = BLUE_BALL_VEL;
+	Blue_Ball.Y_Vel = BLUE_BALL_VEL;
 	Blue_Ball.Pos.x = Blue_Ball.X_Pos;
 	Blue_Ball.Pos.y = Blue_Ball.Y_Pos;
 	Blue_Ball.Vel.x = Blue_Ball.X_Vel;
@@ -151,8 +171,8 @@ void Init()
 
 	Yellow_Ball.X_Pos = (float)GetRandomValue(1, MAX_WIDTH);
 	Yellow_Ball.Y_Pos = (float)GetRandomValue(1, MAX_HEIGHT);
-	Yellow_Ball.X_Vel = 4.0f;
-	Yellow_Ball.Y_Vel = 4.0f;
+	Yellow_Ball.X_Vel = YELLOW_BALL_VEL;
+	Yellow_Ball.Y_Vel = YELLOW_BALL_VEL;
 	Yellow_Ball.Pos.x = Yellow_Ball.X_Pos;
 	Yellow_Ball.Pos.y = Yellow_Ball.Y_Pos;
 	Yellow_Ball.Vel.x = Yellow_Ball.X_Vel;
@@ -301,8 +321,8 @@ void Update()
 				if (Red_Ball.Timer_Countdown == 0)
 				{
 					Red_Ball.Popped = false;
-					Red_Ball.Vel.x += 10.0f;
-					Red_Ball.Vel.y += 10.0f;
+					Red_Ball.Vel.x += RED_BALL_VEL;
+					Red_Ball.Vel.y += RED_BALL_VEL;
 					Red_Ball.Pos.x = (float)GetRandomValue(1, MAX_WIDTH);
 					Red_Ball.Pos.y = (float)GetRandomValue(1, MAX_HEIGHT);
 					Red_Ball.Timer_Countdown = 200;
@@ -328,8 +348,8 @@ void Update()
 				if (Green_Ball.Timer_Countdown == 0)
 				{
 					Green_Ball.Popped = false;
-					Green_Ball.Vel.x += 8.0f;
-					Green_Ball.Vel.y += 8.0f;
+					Green_Ball.Vel.x += GREEN_BALL_VEL;
+					Green_Ball.Vel.y += GREEN_BALL_VEL;
 					Green_Ball.Pos.x = (float)GetRandomValue(1, MAX_WIDTH);
 					Green_Ball.Pos.y = (float)GetRandomValue(1, MAX_HEIGHT);
 					Green_Ball.Timer_Countdown = 200;
@@ -355,8 +375,8 @@ void Update()
 				if (Blue_Ball.Timer_Countdown == 0)
 				{
 					Blue_Ball.Popped = false;
-					Blue_Ball.Vel.x += 6.0f;
-					Blue_Ball.Vel.y += 6.0f;
+					Blue_Ball.Vel.x += BLUE_BALL_VEL;
+					Blue_Ball.Vel.y += BLUE_BALL_VEL;
 					Blue_Ball.Pos.x = (float)GetRandomValue(1, MAX_WIDTH);
 					Blue_Ball.Pos.y = (float)GetRandomValue(1, MAX_HEIGHT);
 					Blue_Ball.Timer_Countdown = 200;
@@ -367,15 +387,28 @@ void Update()
 			{
 				Yellow_Ball.Vel.x = 0;
 				Yellow_Ball.Vel.y = 0;
+
+				/*for (int i = 0; i < MAX_PARTICLES; i++)
+				{
+					Particles.push_back(Particle);
+
+					Particles[i].Position.x = Yellow_Ball.Pos.x;
+					Particles[i].Position.y = Yellow_Ball.Pos.y;
+					Particles[i].X_Vel = 1.0 * (rand() % 10 - rand() % 10) * 0.25;
+					Particles[i].Y_Vel = 1.0 * (10 + rand() % 20) * 0.1;
+					Particles[i].size = 1 + rand() % 3;
+				}*/
+
 				Yellow_Ball.X_Pos = 0;
 				Yellow_Ball.Y_Pos = 0;
+
 				Yellow_Ball.Timer_Countdown--;
 
 				if (Yellow_Ball.Timer_Countdown == 0)
 				{
 					Yellow_Ball.Popped = false;
-					Yellow_Ball.Vel.x += 4.0f;
-					Yellow_Ball.Vel.y += 4.0f;
+					Yellow_Ball.Vel.x += YELLOW_BALL_VEL;
+					Yellow_Ball.Vel.y += YELLOW_BALL_VEL;
 					Yellow_Ball.Pos.x = (float)GetRandomValue(1, MAX_WIDTH);
 					Yellow_Ball.Pos.y = (float)GetRandomValue(1, MAX_HEIGHT);
 					Yellow_Ball.Timer_Countdown = 200;
@@ -415,12 +448,15 @@ void Draw()
 		break;
 
 	case GAME:
+		ClearBackground(DARKGRAY);
 		DrawText(TextFormat("SCORE: %i", Player.Score),1, 1, 20, YELLOW);
 		DrawText(TextFormat("POPPED: %i", Player.Balls_Popped), 1, 20, 20, YELLOW);
 
 		//For debugging purposes
-		//DrawText(TextFormat("MX: %i", mx), 1,40,20,YELLOW);
+		//rawText(TextFormat("MX: %i", mx), 1,40,20,YELLOW);
 		//DrawText(TextFormat("MY: %i", my), 1, 60, 20, YELLOW);
+
+		//DrawTexture(Backdrop, NULL, NULL, WHITE);
 
 		if (Red_Ball.Popped == false)
 		{
@@ -428,7 +464,7 @@ void Draw()
 		}
 		else
 		{
-
+			DrawText("BAM!", Red_Ball.Pos.x, Red_Ball.Pos.y, 20, YELLOW); //temp
 
 		}
 
@@ -438,7 +474,7 @@ void Draw()
 		}
 		else
 		{
-
+			DrawText("BAM!", Green_Ball.Pos.x, Green_Ball.Pos.y, 20, YELLOW); //temp
 		}
 
 		if (Blue_Ball.Popped == false)
@@ -447,7 +483,7 @@ void Draw()
 		}
 		else
 		{
-
+			DrawText("BAM!", Blue_Ball.Pos.x, Blue_Ball.Pos.y, 20, YELLOW); //temp
 		}
 
 		if (Yellow_Ball.Popped == false)
@@ -456,7 +492,11 @@ void Draw()
 		}
 		else
 		{
-
+			/*for (int i = 0; i < MAX_PARTICLES; i++)
+			{
+				DrawCircle(Particles[i].Position.x, Particles[i].Position.y, Particles[i].size, YELLOW);
+			}*/
+			DrawText("BAM!", Yellow_Ball.Pos.x, Yellow_Ball.Pos.y, 20, YELLOW); //temp
 		}
 		break;
 
@@ -479,6 +519,7 @@ void Shutdown()
 {
 	UnloadTexture(LogoTex);
 	UnloadTexture(TitleTex);
+	UnloadTexture(Backdrop);
 
 	CloseWindow();
 }
