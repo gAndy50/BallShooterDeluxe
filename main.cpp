@@ -1,7 +1,7 @@
 /*Ball Shooter Deluxe
 Written by Andy P.
 Icy Viking Games
-Copyright (c) 2023-2024*/
+Copyright (c) 2023-2025*/
 
 #include <iostream>
 #include <vector>
